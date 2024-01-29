@@ -1,12 +1,17 @@
 package com.example.oblig1quiz;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,12 +58,27 @@ public class AddImageButtonFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_add_image, container, false);
+        FloatingActionButton button = view.findViewById(R.id.addImageButton);
+        Log.d("JBE", "Before");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("JBE", "Clicked");
+                Intent intent = new Intent(getContext(), AddImageActivity.class);
+                view.getContext().startActivity(intent);
+                Toast.makeText(getActivity(), "Button Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_image, container, false);
+        return view;
     }
 }

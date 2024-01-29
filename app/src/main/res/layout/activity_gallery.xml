@@ -6,11 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".GalleryActivity">
 
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="408dp"
+        android:layout_height="636dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="3dp" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="com.example.oblig1quiz.AddImageButtonFragment"
         android:layout_width="417dp"
         android:layout_height="84dp"
-        tools:layout_editor_absoluteX="-4dp"
-        tools:layout_editor_absoluteY="648dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-3dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
