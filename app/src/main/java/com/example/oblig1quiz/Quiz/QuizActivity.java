@@ -1,8 +1,10 @@
-package com.example.oblig1quiz;
+package com.example.oblig1quiz.Quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.oblig1quiz.R;
 
 public class QuizActivity extends AppCompatActivity {
 
