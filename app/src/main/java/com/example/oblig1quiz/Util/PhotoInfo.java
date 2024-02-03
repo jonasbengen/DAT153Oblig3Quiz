@@ -2,6 +2,7 @@ package com.example.oblig1quiz.Util;
 
 import android.net.Uri;
 
+// Image info class, URI and Name
 public class PhotoInfo {
 
     private Uri uri;

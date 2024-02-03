@@ -33,11 +33,13 @@ public class GalleryActivity extends AppCompatActivity {
 
         FloatingActionButton sortButton = findViewById(R.id.sortButton);
 
+        // New list and checking for sorted allready
         List<PhotoInfo> photolist = datamanager.getPhotolist();
         List<PhotoInfo> tmp = new ArrayList<>(photolist);
         Collections.sort(tmp, Comparator.comparing(PhotoInfo::getName));
         sortAlfabetical = tmp.equals(photolist);
 
+        // Sort based on what the state is (A-Z or Z-A)
         sortButton.setOnClickListener(view -> {
             if (!photolist.isEmpty()) {
                 if (!sortAlfabetical) {
@@ -45,13 +47,15 @@ public class GalleryActivity extends AppCompatActivity {
                 } else {
                     Collections.sort(photolist, Comparator.comparing(PhotoInfo::getName, Collections.reverseOrder()));
                 }
-                imagesView.setAdapter(adapter);
+                //imagesView.setAdapter(adapter);
                 imagesView.setLayoutManager(new LinearLayoutManager(this));
                 adapter.notifyDataSetChanged();
                 sortAlfabetical = !sortAlfabetical;
             }
         });
     }
+
+    // To update when you navigate back
     @Override
     protected void onResume() {
         super.onResume();

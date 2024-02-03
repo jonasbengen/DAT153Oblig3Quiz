@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.oblig1quiz.R;
 
+
+// Class to show a image object in RecyclerView
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
     private Datamanager dataManager;
@@ -29,7 +31,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int ViewType){
-        View view = LayoutInflater.from(context).inflate(R.layout.item_photo, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_gallery, parent, false);
         return new ViewHolder(view);
     }
 
