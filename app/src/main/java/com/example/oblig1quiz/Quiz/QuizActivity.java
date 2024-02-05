@@ -2,19 +2,24 @@ package com.example.oblig1quiz.Quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.oblig1quiz.Gallery.GalleryActivity;
 import com.example.oblig1quiz.R;
 import com.example.oblig1quiz.Util.Datamanager;
 import com.example.oblig1quiz.Util.PhotoAdapter;
 import com.example.oblig1quiz.Util.PhotoInfo;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,15 +38,19 @@ public class QuizActivity extends AppCompatActivity {
     Button answer2;
     Button answer3;
     TextView scoreView;
+    FloatingActionButton backButton;
+    TextView countdownView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        boolean hardMode = getIntent().getBooleanExtra("HardMode", false);
         datamanager = (Datamanager) getApplication();
         usedPhotos = new ArrayList<>();
         score = 0;
+
 
         list = datamanager.getPhotolist();
         image = findViewById(R.id.quizImage);
@@ -49,17 +58,30 @@ public class QuizActivity extends AppCompatActivity {
         answer2 = findViewById(R.id.answer2);
         answer3 = findViewById(R.id.answer3);
         scoreView = findViewById(R.id.score);
+        backButton = findViewById(R.id.backButtonQuiz);
+        countdownView = findViewById(R.id.countdownView);
 
-        if (datamanager.getPhotolist().size() < 3) {
-            finish();
-            Toast.makeText(getApplicationContext(), "Now enough images to start quiz", Toast.LENGTH_LONG).show();
-        }
+        backButton.setOnClickListener(view -> {
+            finishQuiz();
+        });
 
-        generateQuestion();
+        generateQuestion(hardMode);
     }
 
     // Generate a new question to show on screen
-    private void generateQuestion() {
+    private void generateQuestion(boolean hardMode) {
+        // Setup timer for hardmode
+        CountDownTimer timer = null;
+        if (hardMode) {
+            timer = new CountDownTimer(30000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    countdownView.setText("" + millisUntilFinished / 1000);
+                }
+                public void onFinish() {
+                    generateQuestion(hardMode);
+                }
+            }.start();
+        }
         answer1.setBackgroundColor(Color.parseColor("#FF673AB7"));
         answer2.setBackgroundColor(Color.parseColor("#FF673AB7"));
         answer3.setBackgroundColor(Color.parseColor("#FF673AB7"));
@@ -96,10 +118,10 @@ public class QuizActivity extends AppCompatActivity {
         answer2.setText(randomAnswers.get(1));
         answer3.setText(randomAnswers.get(2));
 
-        setOnClick(questionPhoto.getName());
+        setOnClick(questionPhoto.getName(), hardMode, timer);
     }
 
-    private void setOnClick(String correctAnswer) {
+    private void setOnClick(String correctAnswer, boolean hardmode, CountDownTimer timer) {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +130,10 @@ public class QuizActivity extends AppCompatActivity {
                 answer2.setClickable(false);
                 answer3.setClickable(false);
 
+                // Stop previous timer
+                if (hardmode) {
+                    timer.cancel();
+                }
                 // Check if the clicked button is the right answer
                 Button b = (Button) v;
                 String text = b.getText().toString();
@@ -122,7 +148,7 @@ public class QuizActivity extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable(){
                     public void run(){
-                        generateQuestion();
+                        generateQuestion(hardmode);
                     }
                 }, 3000);
             }

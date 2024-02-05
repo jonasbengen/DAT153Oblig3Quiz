@@ -45,7 +45,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         return dataManager.getPhotolist().size();
     }
 
-    public void delete(int position) { //removes the row
+    public void delete(int position) {
         dataManager.remove(position);
         notifyItemRemoved(position);
     }
