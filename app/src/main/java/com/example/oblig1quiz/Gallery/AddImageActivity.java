@@ -32,6 +32,7 @@ public class AddImageActivity extends AppCompatActivity {
         Button back = findViewById(R.id.backButton);
         EditText description = findViewById(R.id.textInputEditText);
 
+        // Onclick for opening cameraroll
         selectPhoto.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
@@ -45,16 +46,21 @@ public class AddImageActivity extends AppCompatActivity {
 
         );
 
+        // Onclick for saving an image
         save.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    String descString = description.getText().toString();
+
+                    // Check for empty name / description and picture
                    if (descString.isEmpty()) {
                        Toast.makeText(getApplicationContext(), "Fill out description", Toast.LENGTH_LONG).show();
                    }
                    if (imageUri == null) {
                        Toast.makeText(getApplicationContext(), "Please select a photo", Toast.LENGTH_LONG).show();
                    }
+
+                    // Add the image to the datastructure
                    Toast.makeText(getApplicationContext(), "Image added", Toast.LENGTH_LONG).show();
                    datamanager.add(new PhotoInfo(descString, imageUri));
 
@@ -63,12 +69,14 @@ public class AddImageActivity extends AppCompatActivity {
                    String callingPackage = getPackageManager().getNameForUid(uid);
                    getApplication().grantUriPermission(callingPackage, imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
+                    // Wipe the screen
                    reset();
                }
            }
 
         );
 
+        // Onclick for back button
         back.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
@@ -92,6 +100,7 @@ public class AddImageActivity extends AppCompatActivity {
         }
     }
 
+    // Function to empty the screen and make ready for a new entry
     private void reset() {
         ImageView view = findViewById(R.id.imageView);
         view.setImageResource(0);
