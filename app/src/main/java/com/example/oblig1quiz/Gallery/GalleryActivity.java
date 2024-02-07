@@ -18,7 +18,7 @@ import java.util.List;
 public class GalleryActivity extends AppCompatActivity {
 
     Datamanager datamanager;
-    boolean sortAlfabetical;
+    boolean sortedAlfabetical;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,29 +33,33 @@ public class GalleryActivity extends AppCompatActivity {
 
         FloatingActionButton sortButton = findViewById(R.id.sortButton);
 
-        // New list and checking for sorted allready
+        // New list and checking if sorted allready
         List<PhotoInfo> photolist = datamanager.getPhotolist();
-        List<PhotoInfo> tmp = new ArrayList<>(photolist);
-        Collections.sort(tmp, Comparator.comparing(PhotoInfo::getName));
-        sortAlfabetical = tmp.equals(photolist);
+        sortedAlfabetical = checkForSorted(photolist);
 
         // Sort based on what the state is (A-Z or Z-A)
         sortButton.setOnClickListener(view -> {
             if (!photolist.isEmpty()) {
-                if (!sortAlfabetical) {
+
+                // If not sorted alfabeticaly sort it alfabeticaly
+                if (!sortedAlfabetical) {
                     Collections.sort(photolist, Comparator.comparing(PhotoInfo::getName));
-                } else {
+                }
+                // If sorted alfabeticaly sort it reverse-alfabeticaly
+                else {
                     Collections.sort(photolist, Comparator.comparing(PhotoInfo::getName, Collections.reverseOrder()));
                 }
-                //imagesView.setAdapter(adapter);
+                // Update screen
                 imagesView.setLayoutManager(new LinearLayoutManager(this));
                 adapter.notifyDataSetChanged();
-                sortAlfabetical = !sortAlfabetical;
+
+                // Switch the bool so you know how it is sorted
+                sortedAlfabetical = !sortedAlfabetical;
             }
         });
     }
 
-    // To update when you navigate back
+    // To update when you navigate back to the activity
     @Override
     protected void onResume() {
         super.onResume();
@@ -63,6 +67,13 @@ public class GalleryActivity extends AppCompatActivity {
         PhotoAdapter adapter = new PhotoAdapter(datamanager, this);
         imagesView.setAdapter(adapter);
         imagesView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    // Function to check if the list is sorted
+    private boolean checkForSorted(List<PhotoInfo> photolist) {
+        List<PhotoInfo> tmp = new ArrayList<>(photolist);
+        Collections.sort(tmp, Comparator.comparing(PhotoInfo::getName));
+        return tmp.equals(photolist);
     }
 
 }
