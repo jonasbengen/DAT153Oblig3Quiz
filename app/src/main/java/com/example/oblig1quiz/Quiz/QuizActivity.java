@@ -46,6 +46,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        // Get extra and see if user selected hard mode
         boolean hardMode = getIntent().getBooleanExtra("HardMode", false);
         datamanager = (Datamanager) getApplication();
         usedPhotos = new ArrayList<>();
@@ -70,7 +71,7 @@ public class QuizActivity extends AppCompatActivity {
 
     // Generate a new question to show on screen
     private void generateQuestion(boolean hardMode) {
-        // Setup timer for hardmode
+        // Setup timer if hardmode
         CountDownTimer timer = null;
         if (hardMode) {
             timer = new CountDownTimer(30000, 1000) {
@@ -86,6 +87,7 @@ public class QuizActivity extends AppCompatActivity {
         answer2.setBackgroundColor(Color.parseColor("#FF673AB7"));
         answer3.setBackgroundColor(Color.parseColor("#FF673AB7"));
 
+        // Set the score on screen
         scoreView.setText("Score: " + score + " / " + usedPhotos.size());
 
         if (usedPhotos.size() == list.size()) {
@@ -98,7 +100,7 @@ public class QuizActivity extends AppCompatActivity {
         do questionPhoto = getPhotoForQuestion();
         while(usedPhotos.contains(questionPhoto));
 
-
+        // Add it to used Photos and show it on screen
         usedPhotos.add(questionPhoto);
         image.setImageURI(questionPhoto.getUri());
 
@@ -108,16 +110,20 @@ public class QuizActivity extends AppCompatActivity {
         randomAnswers.add(questionPhoto.getName());
 
         // Wrong answers
+        // Find to wrong answers randomly
         for (int i = 0; i < 2; i++) {
             String answer = getRandomAnswers(randomAnswers);
             randomAnswers.add(answer);
         }
+
+        // Shuffle to not get the right answer on the first button every time
         Collections.shuffle(randomAnswers);
 
         answer1.setText(randomAnswers.get(0));
         answer2.setText(randomAnswers.get(1));
         answer3.setText(randomAnswers.get(2));
 
+        // Set onclick for the buttons
         setOnClick(questionPhoto.getName(), hardMode, timer);
     }
 
@@ -181,6 +187,7 @@ public class QuizActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "You got " + score + " points out of " + usedPhotos.size(), Toast.LENGTH_LONG).show();
     }
 
+    // Set colors according to right or wrong
     private void setColorRightOrWrong(String correctAnswer) {
         String color = (answer1.getText().equals(correctAnswer)) ? "green" : "red";
         answer1.setBackgroundColor(Color.parseColor(color));
