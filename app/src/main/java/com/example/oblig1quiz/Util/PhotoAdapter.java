@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.oblig1quiz.R;
 
 
-// Class to show a image object in RecyclerView
+// Class to show a imageobject in RecyclerView
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
     private Datamanager dataManager;
@@ -45,6 +45,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         return dataManager.getPhotolist().size();
     }
 
+    // Delete an object
     public void delete(int position) {
         dataManager.remove(position);
         notifyItemRemoved(position);
