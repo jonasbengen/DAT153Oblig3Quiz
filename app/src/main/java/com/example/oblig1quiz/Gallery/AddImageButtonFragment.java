@@ -18,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * Use the {@link AddImageButtonFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+// Fragment for back button and addImage button
 public class AddImageButtonFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
