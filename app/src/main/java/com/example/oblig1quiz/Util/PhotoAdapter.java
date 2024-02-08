@@ -1,6 +1,8 @@
 package com.example.oblig1quiz.Util;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +70,25 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            delete(getAdapterPosition());
+            showDeleteDialog(getAdapterPosition());
+        }
+
+        // Show dialog for confirming image deletion
+        private void showDeleteDialog(int position) {
+            new AlertDialog.Builder(imageView.getContext())
+                    .setTitle("Do you want to delete?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            delete(getAdapterPosition());
+                        }
+                    })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }).show();
         }
     }
 
