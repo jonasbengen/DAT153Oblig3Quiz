@@ -152,6 +152,7 @@ public class QuizActivity extends AppCompatActivity {
 
                 // Delay before showing next question
                 Handler handler = new Handler();
+                 // wait 3000ms
                 handler.postDelayed(new Runnable(){
                     public void run(){
                         generateQuestion(hardmode);
