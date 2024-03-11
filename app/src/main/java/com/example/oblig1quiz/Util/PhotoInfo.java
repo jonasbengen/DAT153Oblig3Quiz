@@ -2,30 +2,50 @@ package com.example.oblig1quiz.Util;
 
 import android.net.Uri;
 
-// Image info class, URI and Name
-public class PhotoInfo {
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.processing.Generated;
+
+// Image info class, URI and Name
+@Entity(tableName = "gallery")
+public class PhotoInfo {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
+
+    @NotNull
+    @ColumnInfo(name = "uri")
     private Uri uri;
+
+    @NotNull
+    @ColumnInfo(name ="name")
     private String name;
 
-    public PhotoInfo(String navn, Uri uri) {
+    public PhotoInfo(@NotNull String navn, @NotNull Uri uri) {
         this.uri = uri;
         this.name = navn;
     }
 
+    @NonNull
     public Uri getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(@NonNull Uri uri) {
         this.uri = uri;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 }

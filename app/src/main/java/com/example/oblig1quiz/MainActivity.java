@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         quizButton.setOnClickListener(view -> {
             if (datamanager.getPhotolist().size() < 3) {
-                Toast.makeText(getApplicationContext(), "Now enough images to start quiz", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Not enough images to start quiz", Toast.LENGTH_LONG).show();
             } else {
                 Intent intent = new Intent(view.getContext(), QuizActivity.class);
                 intent.putExtra("HardMode", hardmode);
