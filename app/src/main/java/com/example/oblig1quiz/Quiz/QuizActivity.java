@@ -3,38 +3,37 @@ package com.example.oblig1quiz.Quiz;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.oblig1quiz.Database.PhotoInfoAdapter;
-import com.example.oblig1quiz.Database.PhotoViewModel;
+import com.example.oblig1quiz.Util.PhotoInfoAdapter;
+import com.example.oblig1quiz.Util.PhotoViewModel;
 import com.example.oblig1quiz.R;
-import com.example.oblig1quiz.Util.Datamanager;
 import com.example.oblig1quiz.Util.PhotoInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
-
-    Datamanager datamanager;
     PhotoInfoAdapter adapter;
     int score;
     List<PhotoInfo> list;
     List<PhotoInfo> usedPhotos;
+    PhotoInfo questionPhoto;
 
     ImageView image;
     Button answer1;
@@ -49,17 +48,19 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.quiz_landscape);
+        } else {
+            setContentView(R.layout.activity_quiz);
+        }
 
         // Get extra and see if user selected hard mode
         boolean hardMode = getIntent().getBooleanExtra("HardMode", false);
-        datamanager = (Datamanager) getApplication();
-
-        usedPhotos = new ArrayList<>();
-        score = 0;
+        adapter = new PhotoInfoAdapter(new PhotoInfoAdapter.PhotoDiff());
+        photoViewModel = new ViewModelProvider(this).get(PhotoViewModel.class);
 
 
-        list = datamanager.getPhotolist(); //adapter.getCurrentList();
         image = findViewById(R.id.quizImage);
         answer1 = findViewById(R.id.answer1);
         answer2 = findViewById(R.id.answer2);
@@ -72,7 +73,39 @@ public class QuizActivity extends AppCompatActivity {
             finishQuiz();
         });
 
-        generateQuestion(hardMode);
+        if (savedInstanceState == null) {
+            score = 0;
+            list = null;
+            usedPhotos = new ArrayList<>();
+            questionPhoto = null;
+
+            // Set the list and start the quiz once items are loaded
+            photoViewModel.getAllPhotos().observe(this, photos -> {
+                adapter.submitList(photos);
+                list = adapter.getCurrentList();
+                generateQuestion(hardMode);
+            });
+
+        } else {
+            score = savedInstanceState.getInt("score");
+            list = (List<PhotoInfo>) savedInstanceState.getSerializable("list");
+            usedPhotos = (List<PhotoInfo>) savedInstanceState.getSerializable("usedPhotos");
+            questionPhoto = savedInstanceState.getParcelable("questionPhoto");
+            generateQuestion(hardMode);
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putInt("score", score);
+        savedInstanceState.putSerializable("list", (Serializable) list);
+        savedInstanceState.putSerializable("usedPhotos", (Serializable) usedPhotos);
+        savedInstanceState.putParcelable("questionPhoto", (Parcelable) questionPhoto);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     // Generate a new question to show on screen
@@ -96,18 +129,19 @@ public class QuizActivity extends AppCompatActivity {
         // Set the score on screen
         scoreView.setText("Score: " + score + " / " + usedPhotos.size());
 
+
         if (usedPhotos.size() == list.size()) {
             finishQuiz();
             return;
         }
 
         // Loop to find questions that is not used
-        PhotoInfo questionPhoto;
-        do questionPhoto = getPhotoForQuestion();
-        while(usedPhotos.contains(questionPhoto));
+        if (questionPhoto == null) {
+            do questionPhoto = getPhotoForQuestion();
+            while(usedPhotos.contains(questionPhoto));
+        }
 
-        // Add it to used Photos and show it on screen
-        usedPhotos.add(questionPhoto);
+        // Show it on screen
         image.setImageURI(Uri.parse(questionPhoto.getUri()));
 
         List<String> randomAnswers = new ArrayList<>();
@@ -116,7 +150,7 @@ public class QuizActivity extends AppCompatActivity {
         randomAnswers.add(questionPhoto.getName());
 
         // Wrong answers
-        // Find to wrong answers randomly
+        // Find the wrong answers randomly
         for (int i = 0; i < 2; i++) {
             String answer = getRandomAnswers(randomAnswers);
             randomAnswers.add(answer);
@@ -130,10 +164,10 @@ public class QuizActivity extends AppCompatActivity {
         answer3.setText(randomAnswers.get(2));
 
         // Set onclick for the buttons
-        setOnClick(questionPhoto.getName(), hardMode, timer);
+        setOnClick(questionPhoto, hardMode, timer);
     }
 
-    private void setOnClick(String correctAnswer, boolean hardmode, CountDownTimer timer) {
+    private void setOnClick(PhotoInfo correctAnswer, boolean hardmode, CountDownTimer timer) {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +176,10 @@ public class QuizActivity extends AppCompatActivity {
                 answer2.setClickable(false);
                 answer3.setClickable(false);
 
+                // Add the photo to the used list
+                usedPhotos.add(correctAnswer);
+                questionPhoto = null;
+
                 // Stop previous timer
                 if (hardmode) {
                     timer.cancel();
@@ -149,12 +187,12 @@ public class QuizActivity extends AppCompatActivity {
                 // Check if the clicked button is the right answer
                 Button b = (Button) v;
                 String text = b.getText().toString();
-                if (text.equals(correctAnswer)) {
+                if (text.equals(correctAnswer.getName())) {
                     score++;
                 }
 
                 // Set the right colors of the buttons according to right or wrong
-                setColorRightOrWrong(correctAnswer);
+                setColorRightOrWrong(correctAnswer.getName());
 
                 // Delay before showing next question
                 Handler handler = new Handler();

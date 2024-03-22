@@ -1,6 +1,8 @@
 package com.example.oblig1quiz.Util;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -13,7 +15,7 @@ import javax.annotation.processing.Generated;
 
 // Image info class, URI and Name
 @Entity(tableName = "gallery")
-public class PhotoInfo {
+public class PhotoInfo implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
@@ -57,5 +59,15 @@ public class PhotoInfo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+
     }
 }

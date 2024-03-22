@@ -1,10 +1,11 @@
-package com.example.oblig1quiz.Database;
+package com.example.oblig1quiz.Util;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.oblig1quiz.Database.PhotoInfoRepo;
 import com.example.oblig1quiz.Util.PhotoInfo;
 
 import java.util.List;

@@ -1,15 +1,10 @@
-package com.example.oblig1quiz.Database;
+package com.example.oblig1quiz.Util;
 
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
-
-import com.example.oblig1quiz.Util.PhotoInfo;
-
-import java.util.List;
 
 public class PhotoInfoAdapter extends ListAdapter<PhotoInfo, PhotoViewHolder> {
 

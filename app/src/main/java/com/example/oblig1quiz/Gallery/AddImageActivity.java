@@ -7,24 +7,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.oblig1quiz.Database.PhotoViewModel;
-import com.example.oblig1quiz.MainActivity;
+import com.example.oblig1quiz.Util.PhotoViewModel;
 import com.example.oblig1quiz.R;
-import com.example.oblig1quiz.Util.Datamanager;
 import com.example.oblig1quiz.Util.PhotoInfo;
 
 public class AddImageActivity extends AppCompatActivity {
 
     private String imageUri;
-    private Datamanager datamanager;
 
     EditText description;
 
@@ -33,7 +28,6 @@ public class AddImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_image);
 
-        datamanager = (Datamanager) getApplication();
         Button selectPhoto = findViewById(R.id.selectPhoto);
         Button save = findViewById(R.id.saveButton);
         Button back = findViewById(R.id.backButton);
@@ -70,11 +64,9 @@ public class AddImageActivity extends AppCompatActivity {
                    Toast.makeText(getApplicationContext(), "Image added", Toast.LENGTH_LONG).show();
 
 
-                   // Granting permission to use the picture from cameraroll
-                   int uid = Binder.getCallingUid();
-                   String callingPackage = getPackageManager().getNameForUid(uid);
-                   getApplicationContext().grantUriPermission(callingPackage, Uri.parse(imageUri), Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
+                   // Granting permission to use the picture from cameraroll
+                   getContentResolver().takePersistableUriPermission(Uri.parse(imageUri), Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                    // Add photo
                    PhotoViewModel photoViewModel = new ViewModelProvider(AddImageActivity.this).get(PhotoViewModel.class);

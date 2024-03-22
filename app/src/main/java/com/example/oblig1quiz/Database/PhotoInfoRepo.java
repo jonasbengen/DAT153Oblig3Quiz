@@ -16,25 +16,25 @@ public class PhotoInfoRepo {
     private LiveData<List<PhotoInfo>> allPhotos;
 
 
-    PhotoInfoRepo(Application application) {
+    public PhotoInfoRepo(Application application) {
         PhotoInfoDatabase db = PhotoInfoDatabase.getDatabase(application);
         photoDao = db.photoDao();
         allPhotos = photoDao.selectAll();
     }
 
 
-    LiveData<List<PhotoInfo>> getAllPhotos() {
+    public LiveData<List<PhotoInfo>> getAllPhotos() {
         return allPhotos;
     }
 
-    LiveData<List<PhotoInfo>> getAlphabeticSorted() {
+    public LiveData<List<PhotoInfo>> getAlphabeticSorted() {
         return photoDao.getAlphabeticSorted();
     }
 
-    LiveData<List<PhotoInfo>> getAlphabeticSortedDesc() {
+    public LiveData<List<PhotoInfo>> getAlphabeticSortedDesc() {
         return photoDao.getAlphabeticSortedDesc();
     }
-    void delete(PhotoInfo photo) {
+    public void delete(PhotoInfo photo) {
         new DeletePhotoAsyncTask(photoDao).execute(photo/*photoDao.getPhoto(id)*/);
     }
 

@@ -1,27 +1,19 @@
-package com.example.oblig1quiz.Database;
+package com.example.oblig1quiz.Util;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Binder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.oblig1quiz.Gallery.AddImageActivity;
 import com.example.oblig1quiz.Gallery.GalleryActivity;
 import com.example.oblig1quiz.R;
-import com.example.oblig1quiz.Util.PhotoInfo;
-
-import java.util.List;
 
 public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     //private final TextView photoItemView;
