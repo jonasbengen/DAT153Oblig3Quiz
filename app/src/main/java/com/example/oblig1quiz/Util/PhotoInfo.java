@@ -20,23 +20,25 @@ public class PhotoInfo {
 
     @NotNull
     @ColumnInfo(name = "uri")
-    private Uri uri;
+    private String uri;
 
     @NotNull
     @ColumnInfo(name ="name")
     private String name;
 
-    public PhotoInfo(@NotNull String navn, @NotNull Uri uri) {
+    public PhotoInfo(@NotNull String navn, @NotNull String uri) {
         this.uri = uri;
         this.name = navn;
     }
 
+    public PhotoInfo() {}
+
     @NonNull
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(@NonNull Uri uri) {
+    public void setUri(@NonNull String uri) {
         this.uri = uri;
     }
 
@@ -47,5 +49,13 @@ public class PhotoInfo {
 
     public void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -3,6 +3,7 @@ package com.example.oblig1quiz.Util;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         }
 
         public void bind(PhotoInfo photoInfo){
-            imageView.setImageURI(photoInfo.getUri());
+            imageView.setImageURI(Uri.parse(photoInfo.getUri()));
             nameTextView.setText(photoInfo.getName());
         }
 

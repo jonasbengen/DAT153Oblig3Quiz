@@ -1,9 +1,11 @@
 package com.example.oblig1quiz.Quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -14,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.oblig1quiz.Gallery.GalleryActivity;
+import com.example.oblig1quiz.Database.PhotoInfoAdapter;
+import com.example.oblig1quiz.Database.PhotoViewModel;
 import com.example.oblig1quiz.R;
 import com.example.oblig1quiz.Util.Datamanager;
-import com.example.oblig1quiz.Util.PhotoAdapter;
 import com.example.oblig1quiz.Util.PhotoInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,6 +31,7 @@ import java.util.Random;
 public class QuizActivity extends AppCompatActivity {
 
     Datamanager datamanager;
+    PhotoInfoAdapter adapter;
     int score;
     List<PhotoInfo> list;
     List<PhotoInfo> usedPhotos;
@@ -41,6 +44,8 @@ public class QuizActivity extends AppCompatActivity {
     FloatingActionButton backButton;
     TextView countdownView;
 
+    private PhotoViewModel photoViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +54,12 @@ public class QuizActivity extends AppCompatActivity {
         // Get extra and see if user selected hard mode
         boolean hardMode = getIntent().getBooleanExtra("HardMode", false);
         datamanager = (Datamanager) getApplication();
+
         usedPhotos = new ArrayList<>();
         score = 0;
 
 
-        list = datamanager.getPhotolist();
+        list = datamanager.getPhotolist(); //adapter.getCurrentList();
         image = findViewById(R.id.quizImage);
         answer1 = findViewById(R.id.answer1);
         answer2 = findViewById(R.id.answer2);
@@ -102,7 +108,7 @@ public class QuizActivity extends AppCompatActivity {
 
         // Add it to used Photos and show it on screen
         usedPhotos.add(questionPhoto);
-        image.setImageURI(questionPhoto.getUri());
+        image.setImageURI(Uri.parse(questionPhoto.getUri()));
 
         List<String> randomAnswers = new ArrayList<>();
 

@@ -1,25 +1,32 @@
 package com.example.oblig1quiz.Gallery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.oblig1quiz.Database.PhotoViewModel;
+import com.example.oblig1quiz.MainActivity;
 import com.example.oblig1quiz.R;
 import com.example.oblig1quiz.Util.Datamanager;
 import com.example.oblig1quiz.Util.PhotoInfo;
 
 public class AddImageActivity extends AppCompatActivity {
 
-    private Uri imageUri;
+    private String imageUri;
     private Datamanager datamanager;
+
+    EditText description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +37,7 @@ public class AddImageActivity extends AppCompatActivity {
         Button selectPhoto = findViewById(R.id.selectPhoto);
         Button save = findViewById(R.id.saveButton);
         Button back = findViewById(R.id.backButton);
-        EditText description = findViewById(R.id.textInputEditText);
+        description = findViewById(R.id.textInputEditText);
 
         // Onclick for opening cameraroll
         selectPhoto.setOnClickListener(new View.OnClickListener() {
@@ -60,16 +67,20 @@ public class AddImageActivity extends AppCompatActivity {
                        Toast.makeText(getApplicationContext(), "Please select a photo", Toast.LENGTH_LONG).show();
                    }
 
-                    // Add the image to the datastructure
                    Toast.makeText(getApplicationContext(), "Image added", Toast.LENGTH_LONG).show();
-                   datamanager.add(new PhotoInfo(descString, imageUri));
+
 
                    // Granting permission to use the picture from cameraroll
                    int uid = Binder.getCallingUid();
                    String callingPackage = getPackageManager().getNameForUid(uid);
-                   getApplication().grantUriPermission(callingPackage, imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                   getApplicationContext().grantUriPermission(callingPackage, Uri.parse(imageUri), Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                    // Wipe the screen
+
+                   // Add photo
+                   PhotoViewModel photoViewModel = new ViewModelProvider(AddImageActivity.this).get(PhotoViewModel.class);
+                   photoViewModel.insert(new PhotoInfo(descString, imageUri));
+
+                   // Wipe the screen
                    reset();
                }
            }
@@ -93,9 +104,9 @@ public class AddImageActivity extends AppCompatActivity {
 
         if(requestCode==0){
             if(resultCode==RESULT_OK && null!=result){
-                imageUri = result.getData();
+                imageUri = result.getData().toString();
                 ImageView view = findViewById(R.id.imageView);
-                view.setImageURI(imageUri);
+                view.setImageURI(Uri.parse(imageUri));
             }
         }
     }
