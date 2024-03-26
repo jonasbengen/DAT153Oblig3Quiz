@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,12 +34,12 @@ public class QuizActivity extends AppCompatActivity {
     int score;
     List<PhotoInfo> list;
     List<PhotoInfo> usedPhotos;
-    PhotoInfo questionPhoto;
+    static PhotoInfo questionPhoto;
 
     ImageView image;
-    Button answer1;
-    Button answer2;
-    Button answer3;
+    static Button answer1;
+    static Button answer2;
+    static Button answer3;
     TextView scoreView;
     FloatingActionButton backButton;
     TextView countdownView;
@@ -242,6 +243,14 @@ public class QuizActivity extends AppCompatActivity {
 
         color = (answer3.getText().equals(correctAnswer)) ? "green" : "red";
         answer3.setBackgroundColor(Color.parseColor(color));
+    }
+
+    public static PhotoInfo getRightAnswer() {
+        return questionPhoto;
+    }
+
+    public static String[] getAllButtonTexts() {
+        return new String[] {(String) answer1.getText(), (String) answer2.getText(), (String) answer3.getText()};
     }
 
 }

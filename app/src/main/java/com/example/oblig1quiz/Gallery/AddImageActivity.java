@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,16 +63,14 @@ public class AddImageActivity extends AppCompatActivity {
                        Toast.makeText(getApplicationContext(), "Please select a photo", Toast.LENGTH_LONG).show();
                    }
 
-                   Toast.makeText(getApplicationContext(), "Image added", Toast.LENGTH_LONG).show();
-
-
-
                    // Granting permission to use the picture from cameraroll
                    getContentResolver().takePersistableUriPermission(Uri.parse(imageUri), Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                    // Add photo
                    PhotoViewModel photoViewModel = new ViewModelProvider(AddImageActivity.this).get(PhotoViewModel.class);
                    photoViewModel.insert(new PhotoInfo(descString, imageUri));
+
+                   Toast.makeText(getApplicationContext(), "Image added", Toast.LENGTH_LONG).show();
 
                    // Wipe the screen
                    reset();
@@ -95,7 +95,7 @@ public class AddImageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, result);
 
         if(requestCode==0){
-            if(resultCode==RESULT_OK && null!=result){
+            if(resultCode==RESULT_OK && result != null){
                 imageUri = result.getData().toString();
                 ImageView view = findViewById(R.id.imageView);
                 view.setImageURI(Uri.parse(imageUri));
