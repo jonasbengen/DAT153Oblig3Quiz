@@ -11,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import com.example.oblig1quiz.Quiz.QuizActivity;
 import com.example.oblig1quiz.Util.PhotoInfo;
+import com.example.oblig1quiz.Util.PhotoViewHolder;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class QuizTests {
 
     @Rule
-    public IntentsTestRule<QuizActivity> intentsTestRule = new IntentsTestRule<>(QuizActivity.class);
+    public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
 
 
     @Test

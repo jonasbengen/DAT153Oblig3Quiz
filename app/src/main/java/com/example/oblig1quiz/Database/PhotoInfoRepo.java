@@ -35,7 +35,7 @@ public class PhotoInfoRepo {
         return photoDao.getAlphabeticSortedDesc();
     }
     public void delete(PhotoInfo photo) {
-        new DeletePhotoAsyncTask(photoDao).execute(photo/*photoDao.getPhoto(id)*/);
+        new DeletePhotoAsyncTask(photoDao).execute(photo);
     }
 
     public PhotoInfo getPhoto(int id) throws ExecutionException, InterruptedException {

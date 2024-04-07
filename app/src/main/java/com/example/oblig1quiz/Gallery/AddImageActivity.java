@@ -64,7 +64,9 @@ public class AddImageActivity extends AppCompatActivity {
                    }
 
                    // Granting permission to use the picture from cameraroll
-                   getContentResolver().takePersistableUriPermission(Uri.parse(imageUri), Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                   if (!imageUri.startsWith("android.resource://com.example.oblig1quiz/drawable/")) {
+                       getContentResolver().takePersistableUriPermission(Uri.parse(imageUri), Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                   }
 
                    // Add photo
                    PhotoViewModel photoViewModel = new ViewModelProvider(AddImageActivity.this).get(PhotoViewModel.class);
