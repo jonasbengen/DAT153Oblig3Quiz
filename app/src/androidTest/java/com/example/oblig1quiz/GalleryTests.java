@@ -45,45 +45,62 @@ public class GalleryTests {
     @Rule
     public IntentsTestRule<GalleryActivity> intentsTestRule = new IntentsTestRule<>(GalleryActivity.class);
 
+    // Test for deleting a photo
     @Test
     public void TestDeletePhoto() throws InterruptedException {
+        // Find the recyclerview
         RecyclerView view = intentsTestRule.getActivity().findViewById(R.id.recyclerView);
 
+        // Get the count of items in the recyclerview before deleting
         int beforeCount = view.getAdapter().getItemCount();
 
+        // Perform the action of clicking the delete button on the first item in the recyclerview
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.deleteButton)));
 
+        // Click on "YES" in the alert dialog that pops up
         onView(withText("YES")).inRoot(isDialog()).check(matches(isDisplayed())).perform(click());
 
+        // Get the count of items in the recyclerview after deleting
         int afterCount = view.getAdapter().getItemCount();
 
+        // Check if the count of items in the recyclerview is as expected
         assertEquals(beforeCount - 1, afterCount);
     }
 
+    // Test for adding a photo
     @Test
     public void TestAddPhoto() throws Exception {
-
+        // Get the recyclerview
         RecyclerView view = intentsTestRule.getActivity().findViewById(R.id.recyclerView);
 
+        // Get the count of items in the recyclerview before adding a photo
         int beforeCount = view.getAdapter().getItemCount();
 
+        // Perform the action of adding a photo
         addPhoto();
 
+        // Click the back button to go back to the gallery
         onView(withId(R.id.backButton)).perform(click());
 
+        // Get the count of items in the recyclerview after adding a photo
         int afterCount = view.getAdapter().getItemCount();
 
+        // Check if the count of items in the recyclerview is as expected
         assertEquals(beforeCount + 1, afterCount);
 
     }
 
     private void addPhoto() throws Exception {
+        // Click the add image button
         onView(withId(R.id.addImageButton)).perform(click());
 
+        // Type in text in the description field
         onView(withId(R.id.textInputEditText)).perform(typeText("Test"), closeSoftKeyboard());
 
+        // Mock the photo
         mockPhoto();
 
+        // Click the save button
         onView(withId(R.id.saveButton)).perform(click());
     }
 
@@ -94,6 +111,7 @@ public class GalleryTests {
         resultIntent.setData(pictureUri);
 
         // Respond to the intent as if the user has selected an image
+        // This will mock when an ACTION_GET_CONTENT intent happens
         intending(hasAction(Intent.ACTION_GET_CONTENT)).respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, resultIntent));
 
         // Perform the click action to select the photo
@@ -104,7 +122,7 @@ public class GalleryTests {
 
     }
 
-
+    // Click on a child view with a specified id
     public static ViewAction clickChildViewWithId(final int id) {
         return new ViewAction() {
             @Override

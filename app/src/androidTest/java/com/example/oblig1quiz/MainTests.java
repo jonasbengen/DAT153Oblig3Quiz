@@ -20,12 +20,14 @@ public class MainTests {
     public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
 
 
+    // Test for clicking the quiz button and opening the quiz activity
     @Test
     public void TestQuizButton() {
         onView(withId(R.id.quizButton)).perform(click());
         intended(hasComponent(QuizActivity.class.getName()));
     }
 
+    // Test for clicking the gallery button and opening the gallery activity
     @Test
     public void TestGalleryButton() {
         onView(withId(R.id.galleryButton)).perform(click());

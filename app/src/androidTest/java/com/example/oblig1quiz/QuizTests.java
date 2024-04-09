@@ -11,7 +11,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import com.example.oblig1quiz.Quiz.QuizActivity;
 import com.example.oblig1quiz.Util.PhotoInfo;
-import com.example.oblig1quiz.Util.PhotoViewHolder;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,22 +29,32 @@ public class QuizTests {
     public void TestScoreRightAnswer() throws InterruptedException {
         onView(withId(R.id.quizButton)).perform(click());
 
+        // Get the right answer
         PhotoInfo rightAnswer = QuizActivity.getRightAnswer();
+
+        // Click the button with the right answer
         onView(withText(rightAnswer.getName())).perform(click());
 
+        // Sleep to wait so the question can be answered
         TimeUnit.SECONDS.sleep(4);
 
+        // Check if the scoretext on the screen is as excpected
         onView(withId(R.id.score)).check(matches(withText("Score: 1 / 1")));
 
     }
+
 
     @Test
     public void TestScoreWrongAnswer() throws InterruptedException {
         onView(withId(R.id.quizButton)).perform(click());
 
+        // Get the right answer
         PhotoInfo rightAnswer = QuizActivity.getRightAnswer();
+
+        // Get all the answers on the buttons
         String[] allAnswers = QuizActivity.getAllButtonTexts();
 
+        // Loop to find a button that has a wrong answer
         for (String answer : allAnswers) {
             if (!answer.equals(rightAnswer.getName())) {
                 onView(withText(answer)).perform(click());
@@ -53,8 +62,10 @@ public class QuizTests {
             }
         }
 
+        // Sleep to wait so the question can be answered
         TimeUnit.SECONDS.sleep(4);
 
+        // Check if the scoretext on the screen is as excpected
         onView(withId(R.id.score)).check(matches(withText("Score: 0 / 1")));
 
     }
