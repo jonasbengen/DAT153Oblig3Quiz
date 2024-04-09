@@ -30,16 +30,6 @@ app-debug-androidTest/
 ```
 
 The AndroidManifest.xml tells us:
-- the version code
-- min sdk version and target sdk version
-- platform build version code and name
-- package info
-- instrumentation setup for AndroidJUnitRunner
-- queries that APK uses during testing
-- permissions that APK uses - **REORDER TASKS**
-- activities that APK uses for testing
-
-The AndroidManifest.xml tells us:
 - compile sdk version and version code name
 - platform build version code and name
 - package name
@@ -47,7 +37,17 @@ The AndroidManifest.xml tells us:
 - queries that APK uses during testing
 - permissions that APK uses - **REORDER TASKS**
 - activities that APK uses for testing
-- 
+
+The apktool.yml tells us more about the APK structure, like:
+- version of apktool used
+- apk file name
+- used framework
+- min and target sdk version
+- package info
+- version info
+- if resources were compressed
+- etc.
+
 ## Test description
 
 The UI tests are located in **androidTest** directory. There are 3 files:
@@ -71,11 +71,15 @@ Then there are 2 tests:
 1. **TestDeletePhotoo** - get current number of items in the gallery, clicks the delete-button on the first item, clicks "YES" in the alert dialog, check if number of items went down by 1
 2. **TestAddPhoto** - get current number of items in gallery, click the add-image-button, write in description for the photo, mocks a photo from the project resources, clicks the button for uploading the photo, clicks the save-button then the back-button to get back to the gallery, check if number of items went up by 1
 
-### Quiz Activity tests
+Intended number of items in the gallery is checked by using `assertEquals(before, after - 1);` and `assertEquals(before, after + 1);`
+
+### Quiz Tests
 There is a Rule that launches the activity before each test. It uses *IntentTestRule*
 Then there are 2 tests:
 1. **TestScoreRightAnswer** - get the correct answer, clicks the button with this answer and checks for the intended score text on the screen ("Score: 1 / 1")
 2. **TestScoreWrongAnswer** - get the correct answer, clicks a button with a wrong answer and checks for the intended score text on the screen ("Score: 0 / 1")
+
+Intended text on screen is checked by using `onView(withId(R.id.score)).check(matches(withText("Score: 0 / 1")));` and `onView(withId(R.id.score)).check(matches(withText("Score: 1 / 1")));`
 
 QuizActivity had to be modified to allow for testing, I added getter for getRightAnswer and getAllButtonTexts
 
