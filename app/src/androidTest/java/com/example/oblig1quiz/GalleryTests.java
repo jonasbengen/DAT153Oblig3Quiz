@@ -64,7 +64,7 @@ public class GalleryTests {
         int afterCount = view.getAdapter().getItemCount();
 
         // Check if the count of items in the recyclerview is as expected
-        assertEquals(beforeCount - 1, afterCount);
+        assertEquals(afterCount, beforeCount - 1);
     }
 
     // Test for adding a photo
@@ -86,7 +86,7 @@ public class GalleryTests {
         int afterCount = view.getAdapter().getItemCount();
 
         // Check if the count of items in the recyclerview is as expected
-        assertEquals(beforeCount + 1, afterCount);
+        assertEquals(afterCount, beforeCount + 1);
 
     }
 
