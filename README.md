@@ -48,7 +48,7 @@ The apktool.yml tells us more about the APK structure, like:
 - if resources were compressed
 - etc.
 
-##ADB-commands
+## ADB-commands
 - `adb install /path/to/your_app.apk` - installs the application on the started emulated android device
 - `adb shell am instrument -w com.example.DAT153Oblig3Quiz/android.test.runner.AndroidJUnitRunner`
    - `-w` flag forces `am instrument` to wait til the instrumentations are finished before it terminates itself. This keeps the shell open until the tests are finished and are required to get the output from the tests
