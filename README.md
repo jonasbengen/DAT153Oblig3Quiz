@@ -48,6 +48,11 @@ The apktool.yml tells us more about the APK structure, like:
 - if resources were compressed
 - etc.
 
+##ADB-commands
+- `adb install /path/to/your_app.apk` - installs the application on the started emulated android device
+- `adb shell am instrument -w com.example.DAT153Oblig3Quiz/android.test.runner.AndroidJUnitRunner`
+   - Test
+
 ## Test description
 
 The UI tests are located in **androidTest** directory. There are 3 files:
