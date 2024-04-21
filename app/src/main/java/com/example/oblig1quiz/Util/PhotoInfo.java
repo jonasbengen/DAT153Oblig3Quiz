@@ -1,6 +1,5 @@
 package com.example.oblig1quiz.Util;
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,8 +9,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.processing.Generated;
 
 // Image info class, URI and Name
 @Entity(tableName = "gallery")
@@ -34,6 +31,24 @@ public class PhotoInfo implements Parcelable {
     }
 
     public PhotoInfo() {}
+
+    protected PhotoInfo(Parcel in) {
+        id = in.readInt();
+        uri = in.readString();
+        name = in.readString();
+    }
+
+    public static final Creator<PhotoInfo> CREATOR = new Creator<PhotoInfo>() {
+        @Override
+        public PhotoInfo createFromParcel(Parcel in) {
+            return new PhotoInfo(in);
+        }
+
+        @Override
+        public PhotoInfo[] newArray(int size) {
+            return new PhotoInfo[size];
+        }
+    };
 
     @NonNull
     public String getUri() {
@@ -68,6 +83,8 @@ public class PhotoInfo implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-
+        dest.writeInt(id);
+        dest.writeString(uri);
+        dest.writeString(name);
     }
 }

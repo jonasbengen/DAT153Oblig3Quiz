@@ -6,6 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
+/*
+    Adapters provide a binding from an app-specific data set
+    to views that are displayed within a RecyclerView.
+ */
 public class PhotoInfoAdapter extends ListAdapter<PhotoInfo, PhotoViewHolder> {
 
     public PhotoInfoAdapter(@NonNull DiffUtil.ItemCallback<PhotoInfo> diffCallback) {

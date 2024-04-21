@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.oblig1quiz.Gallery.GalleryActivity;
 import com.example.oblig1quiz.R;
 
+/*
+    Class that describes an item in the RecyclerView
+ */
 public class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     //private final TextView photoItemView;
     private final ImageView imageView;

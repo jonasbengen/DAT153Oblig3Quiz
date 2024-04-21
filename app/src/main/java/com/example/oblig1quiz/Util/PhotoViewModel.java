@@ -6,11 +6,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.oblig1quiz.Database.PhotoInfoRepo;
-import com.example.oblig1quiz.Util.PhotoInfo;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/*
+    Class that holds all the data needed for the UI
+ */
 public class PhotoViewModel extends AndroidViewModel {
     private PhotoInfoRepo pRepository;
 
