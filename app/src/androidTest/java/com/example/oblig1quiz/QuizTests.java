@@ -6,7 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.oblig1quiz.Quiz.QuizActivity;
@@ -22,12 +22,12 @@ import java.util.concurrent.TimeUnit;
 public class QuizTests {
 
     @Rule
-    public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
+    public ActivityScenarioRule<QuizActivity> intentsTestRule = new ActivityScenarioRule<>(QuizActivity.class);
 
-
+// Få til å funke her med å starte fra Quiz activity
     @Test
     public void TestScoreRightAnswer() throws InterruptedException {
-        onView(withId(R.id.quizButton)).perform(click());
+        //onView(withId(R.id.quizButton)).perform(click());
 
         // Get the right answer
         PhotoInfo rightAnswer = QuizActivity.getRightAnswer();
@@ -46,7 +46,7 @@ public class QuizTests {
 
     @Test
     public void TestScoreWrongAnswer() throws InterruptedException {
-        onView(withId(R.id.quizButton)).perform(click());
+        //onView(withId(R.id.quizButton)).perform(click());
 
         // Get the right answer
         PhotoInfo rightAnswer = QuizActivity.getRightAnswer();
