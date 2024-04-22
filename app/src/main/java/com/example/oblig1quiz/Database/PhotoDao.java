@@ -12,6 +12,9 @@ import com.example.oblig1quiz.Util.PhotoInfo;
 
 import java.util.List;
 
+/*
+    Class that have methods to talk with the database
+ */
 @Dao
 public interface PhotoDao {
 

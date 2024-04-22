@@ -1,7 +1,6 @@
 package com.example.oblig1quiz.Database;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -15,6 +14,9 @@ import com.example.oblig1quiz.Util.PhotoInfo;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/*
+    Class that creates the database
+ */
 @Database(entities = {PhotoInfo.class}, version = 1, exportSchema = false)
 public abstract class PhotoInfoDatabase extends RoomDatabase {
 

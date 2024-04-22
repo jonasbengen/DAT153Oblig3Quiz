@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutionException;
 
 /*
     Class that holds all the data needed for the UI
+
+    Used to look for changes in the data and update the UI
  */
 public class PhotoViewModel extends AndroidViewModel {
     private PhotoInfoRepo pRepository;

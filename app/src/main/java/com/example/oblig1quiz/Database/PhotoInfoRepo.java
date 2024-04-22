@@ -10,6 +10,9 @@ import com.example.oblig1quiz.Util.PhotoInfo;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/*
+    Class that binds the database and the UI
+ */
 public class PhotoInfoRepo {
 
     private PhotoDao photoDao;
