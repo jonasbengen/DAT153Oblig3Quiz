@@ -6,7 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.oblig1quiz.Quiz.QuizActivity;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class QuizTests {
 
     @Rule
-    public ActivityScenarioRule<QuizActivity> intentsTestRule = new ActivityScenarioRule<>(QuizActivity.class);
+    public IntentsTestRule<QuizActivity> intentsTestRule = new IntentsTestRule<>(QuizActivity.class);
 
 // Få til å funke her med å starte fra Quiz activity
     @Test
