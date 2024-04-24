@@ -1,8 +1,5 @@
 package com.example.oblig1quiz.Quiz;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
@@ -10,17 +7,19 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.oblig1quiz.Util.PhotoInfoAdapter;
-import com.example.oblig1quiz.Util.PhotoViewModel;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.oblig1quiz.R;
 import com.example.oblig1quiz.Util.PhotoInfo;
+import com.example.oblig1quiz.Util.PhotoInfoAdapter;
+import com.example.oblig1quiz.Util.PhotoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
@@ -70,10 +69,6 @@ public class QuizActivity extends AppCompatActivity {
         backButton = findViewById(R.id.backButtonQuiz);
         countdownView = findViewById(R.id.countdownView);
 
-        backButton.setOnClickListener(view -> {
-            finishQuiz();
-        });
-
         if (savedInstanceState == null) {
             score = 0;
             list = null;
@@ -94,6 +89,10 @@ public class QuizActivity extends AppCompatActivity {
             questionPhoto = savedInstanceState.getParcelable("questionPhoto");
             generateQuestion(hardMode);
         }
+
+        backButton.setOnClickListener(view -> {
+            finishQuiz();
+        });
 
     }
 
@@ -245,11 +244,11 @@ public class QuizActivity extends AppCompatActivity {
         answer3.setBackgroundColor(Color.parseColor(color));
     }
 
-    public static PhotoInfo getRightAnswer() {
+    public PhotoInfo getRightAnswer() {
         return questionPhoto;
     }
 
-    public static String[] getAllButtonTexts() {
+    public String[] getAllButtonTexts() {
         return new String[] {(String) answer1.getText(), (String) answer2.getText(), (String) answer3.getText()};
     }
 

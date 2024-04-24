@@ -6,7 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.oblig1quiz.Quiz.QuizActivity;
@@ -17,23 +17,28 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RunWith(AndroidJUnit4.class)
 public class QuizTests {
 
     @Rule
-    public IntentsTestRule<QuizActivity> intentsTestRule = new IntentsTestRule<>(QuizActivity.class);
+    public ActivityScenarioRule<QuizActivity> intentsTestRule = new ActivityScenarioRule<>(QuizActivity.class);
 
 // Få til å funke her med å starte fra Quiz activity
     @Test
     public void TestScoreRightAnswer() throws InterruptedException {
         //onView(withId(R.id.quizButton)).perform(click());
 
-        // Get the right answer
-        PhotoInfo rightAnswer = QuizActivity.getRightAnswer();
+        AtomicReference<PhotoInfo> rightAnswer = new AtomicReference<>();
+        intentsTestRule.getScenario().onActivity(activity -> {
+            // Get the right answer
+            rightAnswer.set(activity.getRightAnswer());
+        });
+
 
         // Click the button with the right answer
-        onView(withText(rightAnswer.getName())).perform(click());
+        onView(withText(rightAnswer.get().getName())).perform(click());
 
         // Sleep to wait so the question can be answered
         TimeUnit.SECONDS.sleep(4);
@@ -48,15 +53,21 @@ public class QuizTests {
     public void TestScoreWrongAnswer() throws InterruptedException {
         //onView(withId(R.id.quizButton)).perform(click());
 
-        // Get the right answer
-        PhotoInfo rightAnswer = QuizActivity.getRightAnswer();
+        AtomicReference<PhotoInfo> rightAnswer = new AtomicReference<>();
+        AtomicReference<String[]> allAnswers = new AtomicReference<>();
+        intentsTestRule.getScenario().onActivity(activity -> {
+            // Get the right answer
+            rightAnswer.set(activity.getRightAnswer());
 
-        // Get all the answers on the buttons
-        String[] allAnswers = QuizActivity.getAllButtonTexts();
+            // Get all the answers on the buttons
+            allAnswers.set(activity.getAllButtonTexts());
+        });
+
+
 
         // Loop to find a button that has a wrong answer
-        for (String answer : allAnswers) {
-            if (!answer.equals(rightAnswer.getName())) {
+        for (String answer : allAnswers.get()) {
+            if (!answer.equals(rightAnswer.get().getName())) {
                 onView(withText(answer)).perform(click());
                 break;
             }
