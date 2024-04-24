@@ -5,33 +5,53 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertNotNull;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.oblig1quiz.Quiz.QuizActivity;
 import com.example.oblig1quiz.Util.PhotoInfo;
 
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RunWith(AndroidJUnit4.class)
+// This is to make sure the tests run in the right order
+// Test are renamed so they run in alphabetical order, starting with a_testActivityLaunch
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class QuizTests {
 
     @Rule
-    public ActivityScenarioRule<QuizActivity> intentsTestRule = new ActivityScenarioRule<>(QuizActivity.class);
+    public ActivityScenarioRule<QuizActivity> activityTestRule = new ActivityScenarioRule<>(QuizActivity.class);
 
-// Få til å funke her med å starte fra Quiz activity
+    // Test for launching the activity and checking if it is launched,
+    // so it is possible to test the other tests
     @Test
-    public void TestScoreRightAnswer() throws InterruptedException {
+    public void a_testActivityLaunch() {
+        // Start the activity scenario
+        ActivityScenario<QuizActivity> scenario = activityTestRule.getScenario();
+
+        // Check if the activity is launched
+        scenario.onActivity(activity -> {
+            assertNotNull(activity);
+        });
+
+    }
+
+    @Test
+    public void b_TestScoreRightAnswer() throws InterruptedException {
         //onView(withId(R.id.quizButton)).perform(click());
 
         AtomicReference<PhotoInfo> rightAnswer = new AtomicReference<>();
-        intentsTestRule.getScenario().onActivity(activity -> {
+        activityTestRule.getScenario().onActivity(activity -> {
             // Get the right answer
             rightAnswer.set(activity.getRightAnswer());
         });
@@ -50,12 +70,12 @@ public class QuizTests {
 
 
     @Test
-    public void TestScoreWrongAnswer() throws InterruptedException {
+    public void c_TestScoreWrongAnswer() throws InterruptedException {
         //onView(withId(R.id.quizButton)).perform(click());
 
         AtomicReference<PhotoInfo> rightAnswer = new AtomicReference<>();
         AtomicReference<String[]> allAnswers = new AtomicReference<>();
-        intentsTestRule.getScenario().onActivity(activity -> {
+        activityTestRule.getScenario().onActivity(activity -> {
             // Get the right answer
             rightAnswer.set(activity.getRightAnswer());
 
@@ -81,3 +101,4 @@ public class QuizTests {
 
     }
 }
+
