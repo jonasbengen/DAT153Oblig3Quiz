@@ -1,18 +1,18 @@
 package com.example.oblig1quiz.Gallery;
 
+import android.annotation.SuppressLint;
+import android.content.res.Configuration;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.res.Configuration;
-import android.os.Bundle;
-
-import com.example.oblig1quiz.Util.PhotoInfoAdapter;
-import com.example.oblig1quiz.Util.PhotoViewModel;
 import com.example.oblig1quiz.R;
 import com.example.oblig1quiz.Util.PhotoInfo;
+import com.example.oblig1quiz.Util.PhotoInfoAdapter;
+import com.example.oblig1quiz.Util.PhotoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -83,9 +83,6 @@ public class GalleryActivity extends AppCompatActivity {
                     adapter.submitList(photos);
                 });
             }
-            // Update screen
-            imagesView.setLayoutManager(linearLayoutManager);
-            adapter.notifyDataSetChanged();
 
             // Switch the bool so you know how it is sorted
             sortedAlfabetical = !sortedAlfabetical;
