@@ -36,7 +36,7 @@ public abstract class PhotoInfoDatabase extends RoomDatabase {
             // comment out the following block
             databaseWriteExecutor.execute(() -> {
                 // Populate the database in the background.
-                // If you want to start with more words, just add them.
+                // If you want to start with more photos, just add them.
                 PhotoDao dao = INSTANCE.photoDao();
                 dao.deleteAll();
 
